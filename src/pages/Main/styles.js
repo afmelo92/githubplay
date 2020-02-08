@@ -74,3 +74,8 @@ export const List = styled.ul`
     }
   }
 `;
+export const ErrorMsg = styled.small`
+  color: red;
+  font-size: 12px;
+  margin-left: 10px;
+`;

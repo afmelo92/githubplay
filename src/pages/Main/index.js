@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 
 import Container from '../../Components/Container';
-import { Form, SubmitButton, List } from './styles';
+import { Form, SubmitButton, List, ErrorMsg } from './styles';
 
 export default class Main extends Component {
   state = {
@@ -14,6 +14,7 @@ export default class Main extends Component {
     repositories: [],
     loading: false,
     error: null,
+    message: '',
   };
 
   // Carregar os dados da localStorage
@@ -45,12 +46,17 @@ export default class Main extends Component {
     try {
       const { newRepo, repositories } = this.state;
 
-      if (newRepo === '')
+      if (newRepo === '') {
+        this.setState({ message: 'Você precisa indicar um repositório' });
         throw new Error('Você precisa indicar um repositório');
+      }
 
       const hasRepo = repositories.find(r => r.name === newRepo);
 
-      if (hasRepo) throw new Error('Repositório duplicado');
+      if (hasRepo) {
+        this.setState({ message: 'Repositório duplicado' });
+        throw new Error('Repositório duplicado');
+      }
 
       const response = await api.get(`/repos/${newRepo}`);
 
@@ -63,6 +69,7 @@ export default class Main extends Component {
     } catch (error) {
       this.setState({
         error: true,
+        message: 'Repositório não encontrado',
       });
     } finally {
       this.setState({
@@ -72,7 +79,7 @@ export default class Main extends Component {
   };
 
   render() {
-    const { newRepo, repositories, loading, error } = this.state;
+    const { newRepo, repositories, loading, error, message } = this.state;
 
     return (
       <Container>
@@ -97,6 +104,8 @@ export default class Main extends Component {
             )}
           </SubmitButton>
         </Form>
+
+        {error ? <ErrorMsg>{message}</ErrorMsg> : ''}
 
         <List>
           {repositories.map(repository => (

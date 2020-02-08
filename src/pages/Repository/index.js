@@ -25,9 +25,7 @@ export default class Repository extends Component {
     const { match, location } = this.props;
     const { filters } = this.state;
 
-    // console.log(this.props.location.aboutProps);
-    console.log('location', location);
-    console.log('match', match);
+    console.log(location);
 
     const repoName = decodeURIComponent(match.params.repository);
 
@@ -148,6 +146,11 @@ Repository.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       repository: PropTypes.string,
+    }),
+  }).isRequired,
+  location: PropTypes.shape({
+    params: PropTypes.shape({
+      aboutProps: PropTypes.object,
     }),
   }).isRequired,
 };
