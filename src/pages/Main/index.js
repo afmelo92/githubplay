@@ -35,12 +35,12 @@ export default class Main extends Component {
   }
 
   handleInputChange = e => {
-    this.setState({ newRepo: e.target.value });
+    this.setState({ newRepo: e.target.value, error: null });
   };
 
   handleSubmit = async e => {
     e.preventDefault();
-    this.setState({ loading: true });
+    this.setState({ loading: true, error: false });
 
     try {
       const { newRepo, repositories } = this.state;
@@ -107,6 +107,10 @@ export default class Main extends Component {
                   pathname: `/repository/${encodeURIComponent(
                     repository.name
                   )}`,
+                  aboutProps: {
+                    name: 'Information passed',
+                    lastName: 'FROM MAIN!',
+                  },
                 }}
               >
                 Detalhes
