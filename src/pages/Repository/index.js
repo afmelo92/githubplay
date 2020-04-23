@@ -22,10 +22,8 @@ export default class Repository extends Component {
   };
 
   async componentDidMount() {
-    const { match, location } = this.props;
+    const { match } = this.props;
     const { filters } = this.state;
-
-    console.log(location);
 
     const repoName = decodeURIComponent(match.params.repository);
 
